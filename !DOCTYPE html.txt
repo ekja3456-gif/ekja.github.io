@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>포트폴리오 타임라인</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            padding: 60px 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(138, 43, 226, 0.15), transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 191, 255, 0.15), transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.5)); }
+            50% { filter: drop-shadow(0 0 40px rgba(118, 75, 162, 0.8)); }
+        }
+
+        .timeline {
+            position: relative;
+            padding-top: 40px;
+        }
+
+        .year-section {
+            margin-bottom: 80px;
+            opacity: 0;
+            animation: fadeIn 0.8s forwards;
+        }
+
+        .year-section:nth-child(1) { animation-delay: 0.2s; }
+        .year-section:nth-child(2) { animation-delay: 0.4s; }
+        .year-section:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+        }
+
+        .year-header {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            padding: 25px 40px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .year-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .year-header:hover::before {
+            left: 100%;
+        }
+
+        .year-header:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4);
+            border-color: rgba(102, 126, 234, 0.6);
+        }
+
+        .year-header h2 {
+            font-size: 2.8em;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            text-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .toggle-icon {
+            font-size: 0.7em;
+            transition: transform 0.4s ease;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+        }
+
+        .year-header.collapsed .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .semesters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 35px;
+            max-height: 2000px;
+            overflow: hidden;
+            transition: max-height 0.5s ease, opacity 0.5s ease;
+        }
+
+        .semesters.collapsed {
+            max-height: 0;
+            opacity: 0;
+        }
+
+        .semester-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .semester-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+        }
+
+        .semester-card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.1), transparent);
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .semester-card:hover::after {
+            width: 500px;
+            height: 500px;
+        }
+
+        .semester-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 25px 60px rgba(102, 126, 234, 0.4);
+            border-color: rgba(102, 126, 234, 0.5);
+        }
+
+        .semester-card h3 {
+            color: #fff;
+            font-size: 2em;
+            margin-bottom: 20px;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 0 15px rgba(118, 75, 162, 0.5);
+        }
+
+        .project-list {
+            list-style: none;
+            margin-top: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-item {
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid #667eea;
+            border-radius: 8px;
+            color: #e0e0e0;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .project-item:hover {
+            background: rgba(102, 126, 234, 0.2);
+            border-left-width: 5px;
+            padding-left: 25px;
+            transform: translateX(5px);
+            color: #fff;
+        }
+
+        .add-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 1.05em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .add-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .add-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .add-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(118, 75, 162, 0.6);
+        }
+
+        .add-btn:active {
+            transform: translateY(-1px) scale(1.02);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+
+            .year-header h2 {
+                font-size: 2em;
+            }
+
+            .semesters {
+                grid-template-columns: 1fr;
+            }
+
+            .semester-card {
+                padding: 25px;
+            }
+        }
+
+        /* 스크롤바 스타일 */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #667eea, #764ba2);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #764ba2, #667eea);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 나의 포트폴리오</h1>
+        
+        <div class="timeline">
+            <div class="year-section">
+                <div class="year-header" onclick="toggleYear(this)">
+                    <h2>2025 <span class="toggle-icon">▼</span></h2>
+                </div>
+                <div class="semesters">
+                    <div class="semester-card">
+                        <h3>1학기</h3>
+                        <ul class="project-list">
+                            <li class="project-item">프로젝트를 추가해보세요</li>
+                        </ul>
+                        <button class="add-btn" onclick="addProject(this)">+ 프로젝트 추가</button>
+                    </div>
+                    <div class="semester-card">
+                        <h3>2학기</h3>
+                        <ul class="project-list">
+                            <li class="project-item">프로젝트를 추가해보세요</li>
+                        </ul>
+                        <button class="add-btn" onclick="addProject(this)">+ 프로젝트 추가</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="year-section">
+                <div class="year-header" onclick="toggleYear(this)">
+                    <h2>2026 <span class="toggle-icon">▼</span></h2>
+                </div>
+                <div class="semesters">
+                    <div class="semester-card">
+                        <h3>1학기</h3>
+                        <ul class="project-list">
+                            <li class="project-item">프로젝트를 추가해보세요</li>
+                        </ul>
+                        <button class="add-btn" onclick="addProject(this)">+ 프로젝트 추가</button>
+                    </div>
+                    <div class="semester-card">
+                        <h3>2학기</h3>
+                        <ul class="project-list">
+                            <li class="project-item">프로젝트를 추가해보세요</li>
+                        </ul>
+                        <button class="add-btn" onclick="addProject(this)">+ 프로젝트 추가</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="year-section">
+                <div class="year-header" onclick="toggleYear(this)">
+                    <h2>2027 <span class="toggle-icon">▼</span></h2>
+                </div>
+                <div class="semesters">
+                    <div class="semester-card">
+                        <h3>1학기</h3>
+                        <ul class="project-list">
+                            <li class="project-item">프로젝트를 추가해보세요</li>
+                        </ul>
+                        <button class="add-btn" onclick="addProject(this)">+ 프로젝트 추가</button>
+                    </div>
+                    <div class="semester-card">
+                        <h3>2학기</h3>
+                        <ul class="project-list">
+                            <li class="project-item">프로젝트를 추가해보세요</li>
+                        </ul>
+                        <button class="add-btn" onclick="addProject(this)">+ 프로젝트 추가</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleYear(header) {
+            const semesters = header.nextElementSibling;
+            header.classList.toggle('collapsed');
+            semesters.classList.toggle('collapsed');
+        }
+
+        function addProject(btn) {
+            const projectName = prompt('프로젝트 이름을 입력하세요:');
+            if (projectName && projectName.trim()) {
+                const list = btn.previousElementSibling;
+                const firstItem = list.querySelector('.project-item');
+                
+                if (firstItem.textContent === '프로젝트를 추가해보세요') {
+                    firstItem.textContent = projectName.trim();
+                } else {
+                    const li = document.createElement('li');
+                    li.className = 'project-item';
+                    li.textContent = projectName.trim();
+                    list.appendChild(li);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
