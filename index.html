@@ -13,11 +13,10 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            background: #0a0a0a;
+            color: #fff;
             min-height: 100vh;
             padding: 60px 20px;
-            position: relative;
-            overflow-x: hidden;
         }
 
         body::before {
@@ -27,15 +26,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(138, 43, 226, 0.15), transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(0, 191, 255, 0.15), transparent 50%);
+            background: radial-gradient(circle at 20% 50%, rgba(138, 43, 226, 0.2), transparent 70%),
+                        radial-gradient(circle at 80% 80%, rgba(0, 191, 255, 0.2), transparent 70%);
             pointer-events: none;
             z-index: 0;
         }
 
         .container {
-            max-width: 1300px;
+            max-width: 1200px;
             margin: 0 auto;
             position: relative;
             z-index: 1;
@@ -44,96 +42,45 @@
         h1 {
             text-align: center;
             font-size: 3.5em;
-            margin-bottom: 20px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            letter-spacing: -1px;
-            animation: titleGlow 3s ease-in-out infinite;
-        }
-
-        @keyframes titleGlow {
-            0%, 100% { filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.5)); }
-            50% { filter: drop-shadow(0 0 40px rgba(118, 75, 162, 0.8)); }
-        }
-
-        .timeline {
-            position: relative;
-            padding-top: 40px;
         }
 
         .year-section {
             margin-bottom: 80px;
-            opacity: 0;
-            animation: fadeIn 0.8s forwards;
-        }
-
-        .year-section:nth-child(1) { animation-delay: 0.2s; }
-        .year-section:nth-child(2) { animation-delay: 0.4s; }
-        .year-section:nth-child(3) { animation-delay: 0.6s; }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
         }
 
         .year-header {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+            background: rgba(102, 126, 234, 0.1);
             backdrop-filter: blur(10px);
             border: 2px solid rgba(102, 126, 234, 0.3);
             padding: 25px 40px;
             border-radius: 20px;
             margin-bottom: 40px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
             cursor: pointer;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .year-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.5s;
-        }
-
-        .year-header:hover::before {
-            left: 100%;
+            transition: all 0.3s ease;
         }
 
         .year-header:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4);
-            border-color: rgba(102, 126, 234, 0.6);
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
         }
 
         .year-header h2 {
-            font-size: 2.8em;
+            font-size: 2.5em;
             color: #fff;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-weight: 600;
-            text-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
         }
 
         .toggle-icon {
             font-size: 0.7em;
-            transition: transform 0.4s ease;
-            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+            transition: transform 0.3s ease;
         }
 
         .year-header.collapsed .toggle-icon {
@@ -143,7 +90,7 @@
         .semesters {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 35px;
+            gap: 30px;
             max-height: 2000px;
             overflow: hidden;
             transition: max-height 0.5s ease, opacity 0.5s ease;
@@ -155,15 +102,13 @@
         }
 
         .semester-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 20px;
             padding: 35px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.3s ease;
             position: relative;
-            overflow: hidden;
         }
 
         .semester-card::before {
@@ -172,49 +117,26 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 5px;
+            height: 4px;
             background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
-        }
-
-        .semester-card::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: radial-gradient(circle, rgba(102, 126, 234, 0.1), transparent);
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .semester-card:hover::after {
-            width: 500px;
-            height: 500px;
+            border-radius: 20px 20px 0 0;
         }
 
         .semester-card:hover {
-            transform: translateY(-15px) scale(1.03);
-            box-shadow: 0 25px 60px rgba(102, 126, 234, 0.4);
-            border-color: rgba(102, 126, 234, 0.5);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.3);
+            border-color: rgba(102, 126, 234, 0.4);
         }
 
         .semester-card h3 {
             color: #fff;
             font-size: 2em;
             margin-bottom: 20px;
-            font-weight: 600;
-            position: relative;
-            z-index: 1;
-            text-shadow: 0 0 15px rgba(118, 75, 162, 0.5);
         }
 
         .project-list {
             list-style: none;
-            margin-top: 25px;
-            position: relative;
-            z-index: 1;
+            margin-top: 20px;
         }
 
         .project-item {
@@ -233,7 +155,6 @@
             background: rgba(102, 126, 234, 0.2);
             border-left-width: 5px;
             padding-left: 25px;
-            transform: translateX(5px);
             color: #fff;
         }
 
@@ -245,40 +166,14 @@
             border-radius: 50px;
             cursor: pointer;
             margin-top: 20px;
-            font-size: 1.05em;
+            font-size: 1em;
             font-weight: 600;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
-            position: relative;
-            z-index: 1;
-            overflow: hidden;
-        }
-
-        .add-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .add-btn:hover::before {
-            width: 300px;
-            height: 300px;
         }
 
         .add-btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 10px 30px rgba(118, 75, 162, 0.6);
-        }
-
-        .add-btn:active {
-            transform: translateY(-1px) scale(1.02);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(118, 75, 162, 0.5);
         }
 
         @media (max-width: 768px) {
@@ -293,28 +188,6 @@
             .semesters {
                 grid-template-columns: 1fr;
             }
-
-            .semester-card {
-                padding: 25px;
-            }
-        }
-
-        /* 스크롤바 스타일 */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #667eea, #764ba2);
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, #764ba2, #667eea);
         }
     </style>
 </head>
@@ -416,5 +289,4 @@
         }
     </script>
 </body>
-
 </html>
